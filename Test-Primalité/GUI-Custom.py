@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from Model import miller_robin, fermat, solovay_strassen
+from Model import miller_robin, fermat, solovay_strassen , aks
 import time
 
 ctk.set_appearance_mode("dark")
@@ -15,12 +15,17 @@ def miller_rabin_test(n, k=10):
 def fermat_test(n, k=10):
     return fermat(n, k)
 
+def aks_test(n, k=None):
+    """AKS est déterministe, k n'est pas utilisé"""
+    return aks(n)
+
 def compare_tests(n, k):
     results = {}
     tests = {
         "Solovay-Strassen": solovay_strassen_test,
         "Miller-Rabin": miller_rabin_test,
-        "Fermat": fermat_test
+        "Fermat": fermat_test,
+        "AKS": aks_test
     }
    
     for test_name, test_func in tests.items():
@@ -34,6 +39,8 @@ def compare_tests(n, k):
                 err_prob = "≤ (1/2)^k"
             elif test_name == "Miller-Rabin":
                 err_prob = "≤ (1/4)^k"
+            elif test_name == "AKS":
+                err_prob = "0 (déterministe - toujours correct)"
             else:
                 err_prob = "< (1/2)^k (vulnérable aux nombres de Carmichael)"
         else:
@@ -231,7 +238,8 @@ class ModernPrimalityCalculator(ctk.CTk):
         test_colors = {
             "Solovay-Strassen": "#ff6b6b",  # Rouge
             "Miller-Rabin": "#4ecdc4",      # Turquoise/Cyan
-            "Fermat": "#ffe66d"             # Jaune
+            "Fermat": "#ffe66d",
+            "AKS": "#a78bfa"        
         }
 
         # Afficher les résultats individuels des tests avec couleurs
