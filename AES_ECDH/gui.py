@@ -179,8 +179,7 @@ class ModernAESCryptoApp:
             font=ctk.CTkFont(size=13),
             height=45,
             corner_radius=10,
-            border_width=2,
-            show="●"
+            border_width=2
         )
         self.key_entry.pack(side="left", fill="x", expand=True, padx=(0, 10))
         
@@ -592,30 +591,22 @@ class ModernAESCryptoApp:
     # chat entre deux utlisateurs
     def _gen_chaiba_keys(self):
         self.chaiba_private, self.chaiba_public = generate_keypair()
-        x = hex(self.chaiba_public.x)[2:].upper()[:16]
-        y = hex(self.chaiba_public.y)[2:].upper()[:16]
-        self.chaiba_pub_lbl.configure(text=f"🔑 Clé publique : x={x}... y={y}...")
-        messagebox.showinfo("Succès", "Clés d'chaiba générées !")
+        self.chaiba_pub_lbl.configure(text=f"🔑 Clé publique : x={self.chaiba_public.x} y={self.chaiba_public.y}")
+        messagebox.showinfo("Succès", "Clés de chaiba générées !")
     
     def _gen_houdaifa_keys(self):
         self.houdaifa_private, self.houdaifa_public = generate_keypair()
-        x = hex(self.houdaifa_public.x)[2:].upper()[:16]
-        y = hex(self.houdaifa_public.y)[2:].upper()[:16]
-        self.houdaifa_pub_lbl.configure(text=f"🔑 Clé publique : x={x}... y={y}...")
-        messagebox.showinfo("Succès", "Clés de houdaifa générées !")
+        self.houdaifa_pub_lbl.configure(text=f"🔑 Clé publique : x={self.houdaifa_public.x} y={self.houdaifa_public.y}")
+        messagebox.showinfo("Succès", "Clés d'houdaifa générées !")
     
     def _exchange_public_keys_chat(self):
         if not (self.chaiba_public and self.houdaifa_public):
             messagebox.showwarning("Attention", "Générez les clés des deux participants d'abord !")
             return
         
-        x = hex(self.houdaifa_public.x)[2:].upper()[:16]
-        y = hex(self.houdaifa_public.y)[2:].upper()[:16]
-        self.chaiba_recv_lbl.configure(text=f"📩 Reçue de houdaifa : x={x}... y={y}...")
+        self.chaiba_recv_lbl.configure(text=f"📩 Reçue d'houdaifa : x={self.houdaifa_public.x} y={self.houdaifa_public.y}")
         
-        x = hex(self.chaiba_public.x)[2:].upper()[:16]
-        y = hex(self.chaiba_public.y)[2:].upper()[:16]
-        self.houdaifa_recv_lbl.configure(text=f"📩 Reçue d'chaiba : x={x}... y={y}...")
+        self.houdaifa_recv_lbl.configure(text=f"📩 Reçue de chaiba : x={self.chaiba_public.x} y={self.chaiba_public.y}")
         
         self._log_transit("🔄 Clés publiques échangées (visibles par tous)")
         messagebox.showinfo("Succès", "Clés publiques échangées avec succès !")
