@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from Model import miller_robin, fermat, solovay_strassen , aks
+from model import miller_robin, fermat, solovay_strassen , aks
 import time
 
 ctk.set_appearance_mode("dark")
